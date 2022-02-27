@@ -1,11 +1,32 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, message, Row } from "antd";
 import React from "react";
 import "./Login.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/user";
+import { useNavigate } from "react-router-dom";
+import fetchWrapper from "../helpers/fetchWrapper";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log(values);
+    fetchWrapper
+      .post("auth/signin", values)
+      .then((response) => {
+        if (response.token && response.userData) {
+          message.success("Logged in Successfully!").then(() => {
+            dispatch(login(response));
+            navigate("/");
+          });
+        } else {
+          message.error("Login Error!");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        message.error(error.message);
+      });
   };
 
   return (
