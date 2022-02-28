@@ -1,15 +1,24 @@
+import { Layout } from "antd";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
-import Login from "./components/Login";
+import Login from "./components/login/Login";
+import AddMember from "./components/member/AddMember";
+import MembersList from "./components/member/MembersList";
+import SideBar from "./components/sidebar/SideBar";
 
 function ProtectedRoute({ children }) {
-  let isAuthenticated = true;
   const token = useSelector((state) => state.user.token);
   const userData = useSelector((state) => state.user.userData);
-  console.log(token, userData);
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const isAuthenticated = token && userData;
+  return isAuthenticated ? (
+    <Layout>
+      <SideBar>{children}</SideBar>
+    </Layout>
+  ) : (
+    <Navigate to="/login" />
+  );
 }
 
 function App() {
@@ -17,6 +26,24 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/login" element={<Login />} />
+        <Route
+          path="/member/create"
+          exact
+          element={
+            <ProtectedRoute>
+              <AddMember />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/members"
+          exact
+          element={
+            <ProtectedRoute>
+              <MembersList />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="*"
           element={

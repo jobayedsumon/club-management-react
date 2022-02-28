@@ -3,9 +3,9 @@ import React from "react";
 import "./Login.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/user";
+import { login } from "../../redux/user";
 import { useNavigate } from "react-router-dom";
-import fetchWrapper from "../helpers/fetchWrapper";
+import fetchWrapper from "../../helpers/fetchWrapper";
 
 const Login = () => {
   const dispatch = useDispatch();

@@ -1,10 +1,10 @@
+import { Layout } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
+import SideBar from "./sidebar/SideBar";
 
 const Dashboard = () => {
-  const token = useSelector((state) => state.user.token);
-  const userData = useSelector((state) => state.user.userData);
-  return <div>Dashboard {userData?.email}</div>;
+  return <div>Dashboard</div>;
 };
 
 export default Dashboard;

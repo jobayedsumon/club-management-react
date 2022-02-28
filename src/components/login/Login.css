@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url("../../public/crowd.jpg");
+  background-image: url("../../../public/crowd.jpg");
   background-size: cover;
 }
 

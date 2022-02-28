@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = process.env.API_URL ?? "http://127.0.0.1:8080/api/";
+const baseURL = process.env.REACT_APP_API_URL ?? "http://127.0.0.1:8080/api/";
 
 const fetchWrapper = axios.create({
   baseURL: baseURL,
