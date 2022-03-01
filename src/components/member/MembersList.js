@@ -1,4 +1,13 @@
-import { Button, Card, Image, Layout, message, Table, Modal } from "antd";
+import {
+  Button,
+  Card,
+  Image,
+  Layout,
+  message,
+  Table,
+  Modal,
+  Avatar,
+} from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMembers } from "../../redux/member";
@@ -12,8 +21,13 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons/lib/icons";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import ViewMember from "./ViewMember";
+import { useState } from "react";
 
 const MembersList = () => {
+  const navigate = useNavigate();
+  const [viewId, setviewId] = useState(null);
   const columns = [
     {
       title: "S/N",
@@ -23,7 +37,7 @@ const MembersList = () => {
       title: "Image",
       render: (text, record, index) =>
         record.image ? (
-          <Image width={100} src={getImage(record.image)} />
+          <Avatar size={50} src={getImage(record.image)} />
         ) : (
           <UserOutlined style={{ fontSize: "32px" }} />
         ),
@@ -31,7 +45,6 @@ const MembersList = () => {
     {
       title: "Name",
       render: (text, record, index) => record.firstname + " " + record.lastname,
-      sorter: (a, b) => a.firstname > b.firstname,
     },
     {
       title: "Phone Number",
@@ -47,7 +60,7 @@ const MembersList = () => {
       sorter: (a, b) => a.status - b.status,
     },
     {
-      title: "Created At",
+      title: "Created",
       render: (text, record, index) =>
         moment(record.createdAtn).format("DD-MM-YYYY"),
       sorter: (a, b) => moment(a.createdAt).diff(moment(b.createdAt)),
@@ -58,10 +71,10 @@ const MembersList = () => {
       render: (text, record, index) => (
         <div className="d-flex justify-content-between">
           <Button type="primary" className="d-flex align-items-center">
-            <EyeOutlined />
+            <EyeOutlined onClick={() => setviewId(record.id)} />
           </Button>
           <Button className="bg-success text-white d-flex align-items-center">
-            <EditOutlined />
+            <EditOutlined onClick={() => navigate("/member/" + record.id)} />
           </Button>
           <Button
             type="danger"
@@ -120,8 +133,20 @@ const MembersList = () => {
     getAllMembers();
   }, []);
 
+  console.log(viewId);
+
   return (
     <div>
+      <Modal
+        centered
+        visible={viewId != null}
+        onCancel={() => setviewId(null)}
+        width={1000}
+        footer={null}
+      >
+        <ViewMember id={viewId} />
+      </Modal>
+
       <Card title={<h4>Members List</h4>}>
         <Table bordered striped columns={columns} dataSource={members} />
       </Card>

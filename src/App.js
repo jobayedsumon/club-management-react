@@ -5,6 +5,7 @@ import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/login/Login";
 import AddMember from "./components/member/AddMember";
+import EditMember from "./components/member/EditMember";
 import MembersList from "./components/member/MembersList";
 import SideBar from "./components/sidebar/SideBar";
 
@@ -26,6 +27,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/login" element={<Login />} />
+        <Route
+          path="/member/:id"
+          element={
+            <ProtectedRoute>
+              <EditMember />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/member/create"
           exact

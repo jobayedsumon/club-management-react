@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import fetchWrapper from "../helpers/fetchWrapper";
 
 const initialState = {
   token: localStorage.getItem("token") ?? null,
@@ -14,6 +15,11 @@ export const userSlice = createSlice({
     login: (state, action) => {
       state.userData = action.payload.userData;
       state.token = action.payload.token;
+      fetchWrapper.defaults.headers["x-access-token"] = action.payload.token;
+      fetchWrapper.interceptors.request.use(function (config) {
+        config.headers["x-access-token"] = action.payload.token;
+        return config;
+      });
       localStorage.setItem("userData", JSON.stringify(action.payload.userData));
       localStorage.setItem("token", action.payload.token);
     },

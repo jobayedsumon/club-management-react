@@ -1,0 +1,19 @@
+.memberDataCard {
+  padding: 2rem;
+  border-left: 1px solid #999;
+}
+
+.memberName {
+  font-size: 32px;
+  color: #1890ff;
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+}
+
+.memberAddress {
+  font-size: 14px;
+}
