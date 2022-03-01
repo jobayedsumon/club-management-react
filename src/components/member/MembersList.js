@@ -24,6 +24,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ViewMember from "./ViewMember";
 import { useState } from "react";
+import { getAllMembers } from "../../helpers/functions";
 
 const MembersList = () => {
   const navigate = useNavigate();
@@ -91,22 +92,6 @@ const MembersList = () => {
   const dispatch = useDispatch();
   const members = useSelector((state) => state.member.membersList);
 
-  const getAllMembers = () => {
-    fetchWrapper
-      .get("members")
-      .then((response) => {
-        if (response) {
-          if (response) {
-            dispatch(setMembers(response));
-          }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        message.error(error.message);
-      });
-  };
-
   const deleteMember = (id) => {
     Modal.confirm({
       title: "Are you sure to remove this member?",
@@ -120,7 +105,7 @@ const MembersList = () => {
           .delete("member/" + id)
           .then((response) => {
             message.success(response.message);
-            getAllMembers();
+            getAllMembers().then((members) => dispatch(setMembers(members)));
           })
           .catch((error) => {
             message.error(error.message);
@@ -130,7 +115,7 @@ const MembersList = () => {
   };
 
   useEffect(() => {
-    getAllMembers();
+    getAllMembers().then((members) => dispatch(setMembers(members)));
   }, []);
 
   console.log(viewId);
